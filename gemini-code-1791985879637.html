@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест: Какое вы поколение по духу?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    .question-block {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .question-title {
+      font-weight: bold;
+      font-size: 17px;
+      margin-bottom: 12px;
+      color: #1a252f;
+    }
+    .option {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+    .option input {
+      margin-top: 4px;
+      margin-right: 10px;
+    }
+    .btn {
+      width: 100%;
+      background-color: #3498db;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn:hover {
+      background-color: #2980b9;
+    }
+    .btn:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+    .hidden {
+      display: none;
+    }
+    #result-screen {
+      text-align: center;
+      padding: 20px 0;
+    }
+    .result-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #27ae60;
+      margin-top: 15px;
+    }
+    .loader {
+      text-align: center;
+      font-size: 18px;
+      color: #7f8c8d;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Экран 1: Ввод ФИО -->
+  <div id="start-screen">
+    <h1>Тест: Какое вы поколение по духу?</h1>
+    <div class="form-group">
+      <label for="fullName">Введите ваше ФИО:</label>
+      <input type="text" id="fullName" placeholder="Иванов Иван Иванович" required>
+    </div>
+    <button class="btn" onclick="startTest()">Начать тест</button>
+  </div>
+
+  <!-- Экран 2: Вопросы -->
+  <div id="test-screen" class="hidden">
+    <h1>Тестирование</h1>
+    <form id="quizForm">
+
+      <!-- Вопрос 1 -->
+      <div class="question-block">
+        <div class="question-title">1. Как вы предпочитаете работать?</div>
+        <label class="option"><input type="checkbox" name="q1" value="a"> а) По плану, в тишине, без лишней суеты — главное, чтобы всё было понятно.</label>
+        <label class="option"><input type="checkbox" name="q1" value="b"> б) Когда есть свобода импровизировать и развиваться.</label>
+        <label class="option"><input type="checkbox" name="q1" value="c"> с) Проектами, гибко и желательно — удалённо.</label>
+        <label class="option"><input type="checkbox" name="q1" value="d"> д) Виртуально, через приложения, с геймификацией и стикерами.</label>
+      </div>
+
+      <!-- Вопрос 2 -->
+      <div class="question-block">
+        <div class="question-title">2. Как вы реагируете на слово "Отчёт"?</div>
+        <label class="option"><input type="checkbox" name="q2" value="a"> а) Вспоминаю Excel и папку "Февраль" на рабочем столе.</label>
+        <label class="option"><input type="checkbox" name="q2" value="b"> б) Начинаю думать, как его автоматизировать.</label>
+        <label class="option"><input type="checkbox" name="q2" value="c"> с) Спрашиваю "А зачем вообще он нужен?".</label>
+        <label class="option"><input type="checkbox" name="q2" value="d"> д) Надеюсь, что его можно сдать в виде презентации с эмодзи.</label>
+      </div>
+
+      <!-- Вопрос 3 -->
+      <div class="question-block">
+        <div class="question-title">3. Что вы думаете о корпоративной иерархии?</div>
+        <label class="option"><input type="checkbox" name="q3" value="a"> а) Должна быть. Старших — уважаем, младших — учим.</label>
+        <label class="option"><input type="checkbox" name="q3" value="b"> б) Хорошо, если не мешает работать.</label>
+        <label class="option"><input type="checkbox" name="q3" value="c"> с) Если начальник тупит — зачем он нужен?.</label>
+        <label class="option"><input type="checkbox" name="q3" value="d"> д) Пусть все на равных, но чтобы красиво и понятно.</label>
+      </div>
+
+      <!-- Вопрос 4 -->
+      <div class="question-block">
+        <div class="question-title">4. Что для вас идеальный рабочий день?</div>
+        <label class="option"><input type="checkbox" name="q4" value="a"> а) Прийти в офис, спокойно всё сделать, уйти вовремя.</label>
+        <label class="option"><input type="checkbox" name="q4" value="b"> б) Придумать новую идею, провести мозговой штурм, успеть на спорт.</label>
+        <label class="option"><input type="checkbox" name="q4" value="c"> с) Проснуться, поработать с ноутбуком в кофейне по зуму, и без дресс-кода.</label>
+        <label class="option"><input type="checkbox" name="q4" value="d"> д) Чтобы был TikTok's-перерыв, крутой дизайн в задачах, и прикольный ментор.</label>
+      </div>
+
+      <!-- Вопрос 5 -->
+      <div class="question-block">
+        <div class="question-title">5. Что вас бесит в работе больше всего?</div>
+        <label class="option"><input type="checkbox" name="q5" value="a"> а) Когда нарушают правила.</label>
+        <label class="option"><input type="checkbox" name="q5" value="b"> б) Когда меня не развивают.</label>
+        <label class="option"><input type="checkbox" name="q5" value="c"> с) Когда нет смысла в задаче.</label>
+        <label class="option"><input type="checkbox" name="q5" value="d"> д) Когда всё скучно и некрасиво.</label>
+      </div>
+
+      <button type="button" class="btn" onclick="submitTest()">Завершить тест</button>
+    </form>
+  </div>
+
+  <!-- Экран 3: Результат -->
+  <div id="result-screen" class="hidden">
+    <h2>Тест завершен!</h2>
+    <p id="user-greeting"></p>
+    <div class="result-title" id="generation-result"></div>
+    <p id="sending-status" class="loader">Отправка результатов в Google Таблицу...</p>
+  </div>
+
+</div>
+
+<script>
+  // ВСТАВЬТЕ СЮДА ССЫЛКУ ИЗ GOOGLE APPS SCRIPT
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxarz-_w9tp-CGQqGskJ71D3gSg2XIn66qJ--mdpbm2899f6PkI2YA6F0R2EGClF-menw/exec";
+
+  let userFullName = "";
+
+  function startTest() {
+    const nameInput = document.getElementById("fullName").value.trim();
+    if (!nameInput) {
+      alert("Пожалуйста, введите Ваше ФИО.");
+      return;
+    }
+    userFullName = nameInput;
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("test-screen").classList.remove("hidden");
+  }
+
+  function submitTest() {
+    const questions = ['q1', 'q2', 'q3', 'q4', 'q5'];
+    let selectedAnswers = [];
+    
+    // Проверяем, ответил ли пользователь на все вопросы
+    for (let q of questions) {
+      const checked = document.querySelectorAll(`input[name="${q}"]:checked`);
+      if (checked.length === 0) {
+        alert("Пожалуйста, ответьте на все вопросы (выберите от 1 до 4 ответов в каждом).");
+        return;
+      }
+      checked.forEach(cb => selectedAnswers.push(cb.value));
+    }
+
+    // Подсчет количества выбранных вариантов
+    let counts = { a: 0, b: 0, c: 0, d: 0 };
+    selectedAnswers.forEach(val => {
+      if (counts[val] !== undefined) {
+        counts[val]++;
+      }
+    });
+
+    // Определение поколения с максимальным количеством ответов
+    let maxCount = -1;
+    let resultGenKey = 'a';
+
+    // Порядок проверки при равном количестве баллов: a, b, c, d
+    ['a', 'b', 'c', 'd'].forEach(key => {
+      if (counts[key] > maxCount) {
+        maxCount = counts[key];
+        resultGenKey = key;
+      }
+    });
+
+    const generationNames = {
+      'a': 'Поколение X',
+      'b': 'Поколение Y (Миллениал)',
+      'c': 'Поколение Z (Зумер)',
+      'd': 'Поколение Альфа'
+    };
+
+    const finalResult = generationNames[resultGenKey];
+
+    // Показываем результат
+    document.getElementById("test-screen").classList.add("hidden");
+    document.getElementById("result-screen").classList.remove("hidden");
+    document.getElementById("user-greeting").innerText = `${userFullName}, по духу вы:`;
+    document.getElementById("generation-result").innerText = finalResult;
+
+    // Отправляем данные в Google Sheets
+    sendDataToGoogleSheets(userFullName, finalResult, selectedAnswers);
+  }
+
+  function sendDataToGoogleSheets(fullName, result, answers) {
+    const payload = {
+      fullName: fullName,
+      result: result,
+      answers: answers
+    };
+
+    fetch(WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors", // Предотвращает ошибки CORS при отправке в Apps Script
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      document.getElementById("sending-status").innerText = "Результаты успешно сохранены в Google Таблицу!";
+      document.getElementById("sending-status").style.color = "#27ae60";
+    })
+    .catch(error => {
+      console.error("Ошибка:", error);
+      document.getElementById("sending-status").innerText = "Произошла ошибка при сохранении данных.";
+      document.getElementById("sending-status").style.color = "#c0392b";
+    });
+  }
+</script>
+
+</body>
+</html>
